@@ -1,0 +1,6 @@
+<template>
+  <div>
+    <h1>Contacto</h1>
+    <p>Información de contacto.</p>
+  </div>
+</template>
