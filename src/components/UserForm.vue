@@ -3,7 +3,7 @@ import { reactive, ref, watch } from 'vue'
 import { useUserStore } from '../stores/userStore'
 
 const store = useUserStore()
-const { addUser, updateUser } = store
+const { addUser, updateUser, users } = store
 
 // PROPS
 const props = defineProps({
@@ -80,17 +80,36 @@ const handleSubmit = () => {
 
 const validate = () => {
   const errs = []
+
+  // Básicos
   if (!form.nombre) errs.push('Nombre requerido')
   else if (!/^[a-zA-Z\s]+$/.test(form.nombre)) errs.push('Nombre sin números')
 
   if (!form.email) errs.push('Email requerido')
   else if (!/\S+@\S+\.\S+/.test(form.email)) errs.push('Email inválido')
 
-  if (!form.telefono) errs.push('Teléfono requerido')
-  else if (!/^\d+$/.test(form.telefono)) errs.push('Teléfono solo números')
+  if (!form.telefono) {
+  errs.push('Teléfono requerido')
+} else if (!/^\d+$/.test(form.telefono)) {
+  errs.push('Teléfono solo números')
+} else if (form.telefono.length !== 10) {  
+  errs.push('El teléfono debe tener exactamente 10 dígitos')
+}
 
   if (!isEditing.value && !form.contrasena) errs.push('Contraseña requerida')
   else if (!isEditing.value && form.contrasena.length < 6) errs.push('Contraseña min 6 caracteres')
+
+  // UNICIDAD
+  const currentEmail = props.editingUser?.email
+  const currentPhone = props.editingUser?.telefono
+
+  if (users.some(u => u.email === form.email && u.email !== currentEmail)) {
+    errs.push('Este email ya está registrado')
+  }
+
+  if (users.some(u => u.telefono === form.telefono && u.telefono !== currentPhone)) {
+    errs.push('Este teléfono ya está registrado')
+  }
 
   return errs
 }
