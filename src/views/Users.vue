@@ -1,8 +1,20 @@
 <template>
-  <div class="users-page">
-    <h1>Gestión de Usuarios</h1>
-    <UserForm :editing-user="editingUser" @user-saved="editingUser = null" />
-    <UserList @edit="editingUser = $event" />
+  <div class="text-center space-y-10">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
+        Panel de Usuarios
+      </h1>
+      <p class="mt-2 text-lg text-gray-600">
+        Registra, edita o elimina usuarios fácilmente
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start justify-center">
+      <UserForm :editing-user="editingUser" @user-saved="editingUser = null" />
+      <div class="flex-1 w-full lg:max-w-3xl">
+        <UserList @edit="editingUser = $event" />
+      </div>
+    </div>
   </div>
 </template>
 

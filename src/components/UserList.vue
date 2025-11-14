@@ -1,42 +1,48 @@
 <template>
-  <div>
-    <h2>Lista de Usuarios</h2>
+  <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-5 border-b-2 border-indigo-100">
+      <h2 class="text-2xl font-bold text-indigo-800">Lista de Usuarios</h2>
+    </div>
 
-    <table v-if="users.length" class="users-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Teléfono</th>
-          <th>Fecha Registro</th>
-          <th>Rol</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.email">
-          <td>{{ user.nombre }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.telefono }}</td>
-          <td>{{ user.fechaRegistro }}</td>
-          <td>
-            <span :class="user.rol === 'admin' ? 'badge-admin' : 'badge-user'">
-              {{ user.rol }}
-            </span>
-          </td>
-          <td class="actions">
-            <button @click="editUser(user)" class="btn-edit" title="Editar">
-              Editar
-            </button>
-            <button @click="confirmDelete(user)" class="btn-delete" title="Eliminar">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="users.length" class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gradient-to-r from-indigo-100 to-purple-100">
+          <tr>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Nombre</th>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Teléfono</th>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Registro</th>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Rol</th>
+            <th class="px-6 py-4 text-left text-xs font-extrabold text-indigo-700 uppercase tracking-wider">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr v-for="user in users" :key="user.email" class="hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{{ user.nombre }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ user.email }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ user.telefono }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.fechaRegistro }}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span :class="user.rol === 'admin' 
+                ? 'px-3 py-1 text-xs font-bold text-green-800 bg-green-100 rounded-full' 
+                : 'px-3 py-1 text-xs font-bold text-purple-800 bg-purple-100 rounded-full'"
+              >
+                {{ user.rol }}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-3">
+              <button @click="editUser(user)" class="text-amber-600 hover:text-amber-800 font-bold transform hover:scale-110 transition">Editar</button>
+              <button @click="confirmDelete(user)" class="text-red-600 hover:text-red-800 font-bold transform hover:scale-110 transition">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <p v-else class="no-users">No hay usuarios registrados.</p>
+    <div v-else class="text-center py-16">
+      <p class="text-xl text-gray-500 font-medium">No hay usuarios registrados</p>
+      <p class="text-sm text-gray-400 mt-2">Registra el primero arriba</p>
+    </div>
   </div>
 </template>
 
